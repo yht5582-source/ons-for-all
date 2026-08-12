@@ -1,685 +1,141 @@
-# ons-for-all<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>中國醫藥大學北港附設醫院 - 全病患臨床營養評估與院內配方動態試算系統</title>
-  <style>
-    :root {
-      --bg-color: #FFFBF5;
-      --card-bg: #FFFFFF;
-      --primary: #E07A5F;
-      --primary-hover: #D0694E;
-      --secondary: #81B29A;
-      --accent: #F2CC8F;
-      --text-dark: #3D405B;
-      --text-muted: #6C757D;
-      --border-color: #F0E6DF;
-      --shadow: 0 4px 12px rgba(61, 64, 91, 0.08);
-      --radius: 12px;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-dark);
-      line-height: 1.6;
-      padding: 20px;
-    }
-    .container {
-      max-width: 1240px;
-      margin: 0 auto;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 24px;
-      padding: 20px;
-      background: linear-gradient(135deg, #F4F1DE 0%, #F2CC8F 100%);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    header h1 {
-      color: var(--text-dark);
-      font-size: 1.7rem;
-      margin-bottom: 6px;
-    }
-    header p {
-      color: #555;
-      font-size: 0.95rem;
-    }
-    .hospital-title {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--primary);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .main-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-    @media (min-width: 900px) {
-      .main-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-    .card {
-      background: var(--card-bg);
-      border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      margin-bottom: 20px;
-    }
-    .card h2 {
-      font-size: 1.18rem;
-      color: var(--primary);
-      margin-bottom: 16px;
-      padding-bottom: 8px;
-      border-bottom: 2px solid var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .form-group {
-      margin-bottom: 14px;
-    }
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    label {
-      display: block;
-      font-size: 0.88rem;
-      font-weight: 600;
-      margin-bottom: 4px;
-      color: var(--text-dark);
-    }
-    input[type="number"], select, input[type="text"] {
-      width: 100%;
-      padding: 8px 12px;
-      border: 1px solid #D1C7BD;
-      border-radius: 8px;
-      font-size: 0.92rem;
-      background-color: #FAFAFA;
-      transition: all 0.2s;
-    }
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--primary);
-      background-color: #FFF;
-      box-shadow: 0 0 0 3px rgba(224, 122, 95, 0.2);
-    }
-    .result-box {
-      background-color: #F4F1DE;
-      border-radius: 8px;
-      padding: 14px;
-      margin-bottom: 12px;
-    }
-    .result-title {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .result-value {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--primary);
-    }
-    .badge {
-      display: inline-block;
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      margin-top: 4px;
-    }
-    .badge-info { background: #E2EFCB; color: #3A5A40; }
-    .badge-warn { background: #FAD2E1; color: #800F2F; }
-    .badge-primary { background: #E07A5F; color: #FFF; }
-    .recommendation-list {
-      list-style: none;
-      padding: 0;
-    }
-    .recommendation-list li {
-      padding: 10px;
-      background: #FFFBF5;
-      border-left: 4px solid var(--secondary);
-      margin-bottom: 8px;
-      border-radius: 4px;
-      font-size: 0.9rem;
-    }
-    .recommendation-list li strong {
-      color: var(--text-dark);
-    }
-    .btn {
-      display: inline-block;
-      width: 100%;
-      padding: 12px;
-      background-color: var(--primary);
-      color: #FFF;
-      border: none;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-align: center;
-      transition: background 0.2s;
-    }
-    .btn:hover {
-      background-color: var(--primary-hover);
-    }
-    .summary-text {
-      font-family: monospace;
-      white-space: pre-wrap;
-      background: #2D3142;
-      color: #E0E1DD;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      max-height: 240px;
-      overflow-y: auto;
-    }
-    .code-tag {
-      font-size: 0.8rem;
-      background: #EAEAEA;
-      padding: 2px 6px;
-      border-radius: 4px;
-      color: #C7254E;
-      font-family: monospace;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header>
-      <div class="hospital-title">中國醫藥大學北港附設醫院 臨床營養科</div>
-      <h1>🩺 院內營養品臨床評估與動態試算系統</h1>
-      <p>嚴格對照院內現有營養品清單（含醫令碼），支援門診/病房/ICU/呼吸器/內外科及各式灌食途徑</p>
-    </header>
+# ons-for-all
 
-    <div class="main-grid">
-      <!-- 左側：輸入參數 -->
-      <div class="input-section">
-        <div class="card">
-          <h2>1. 基本生理數據</h2>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="gender">性別</label>
-              <select id="gender" onchange="calculate()">
-                <option value="male">男性 (Male)</option>
-                <option value="female">女性 (Female)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="age">年齡 (歲)</label>
-              <input type="number" id="age" value="65" min="1" max="120" onchange="calculate()">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="height">身高 (cm)</label>
-              <input type="number" id="height" value="165" min="50" max="230" onchange="calculate()">
-            </div>
-            <div class="form-group">
-              <label for="weight">實際體重 (kg)</label>
-              <input type="number" id="weight" value="60" min="20" max="250" onchange="calculate()">
-            </div>
-          </div>
-        </div>
+中國醫藥大學北港附設醫院臨床營養科的「院內營養品臨床評估與動態試算系統」。此專案是一個純前端單頁工具，協助依據病人基本資料、照護場景、器官機能、灌食途徑與院內營養品清單，快速估算營養需求、配方供應量與醫令紀錄文字。
 
-        <div class="card">
-          <h2>2. 照護場景與重症應激</h2>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="setting">照護場景</label>
-              <select id="setting" onchange="calculate()">
-                <option value="outpatient">門診 / 社區 (Outpatient)</option>
-                <option value="ward" selected>一般病房 (Inpatient Ward)</option>
-                <option value="icu">加護病房 (ICU / Critical Care)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="specialty">臨床科別/狀態</label>
-              <select id="specialty" onchange="calculate()">
-                <option value="medical">一般內科 (Medical)</option>
-                <option value="surgical">外科手術/創傷 (Surgical/Trauma)</option>
-                <option value="sepsis">敗血症/重度感染 (Sepsis)</option>
-                <option value="burn">大面積燒燙傷 (Major Burn)</option>
-                <option value="oncology">腫瘤 / 癌症照護 (Oncology)</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="ventilator">呼吸器狀態</label>
-              <select id="ventilator" onchange="calculate()">
-                <option value="none">未使用 (None)</option>
-                <option value="normal">使用中 - 無 CO₂ 滯留</option>
-                <option value="hypercapnia">使用中 - CO₂ 滯留/高碳酸血症</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="glycemic">血糖代謝</label>
-              <select id="glycemic" onchange="calculate()">
-                <option value="normal">正常 (Normal)</option>
-                <option value="diabetes">糖尿病 / 糖耐量異常</option>
-                <option value="stress_hyperglycemia">應激性高血糖</option>
-              </select>
-            </div>
-          </div>
-        </div>
+目前專案已部署於 GitHub Pages：
 
-        <div class="card">
-          <h2>3. 器官機能與灌食途徑</h2>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="renal">腎功能與透析狀態</label>
-              <select id="renal" onchange="calculate()">
-                <option value="normal">腎功能正常 (Normal)</option>
-                <option value="ckd_ndd">CKD Stage 1-4 (未透析 NDD)</option>
-                <option value="hd">血液透析 (HD)</option>
-                <option value="pd">腹膜透析 (PD)</option>
-                <option value="crrt">連續性腎替代療法 (CRRT)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="route">進食與灌食途徑</label>
-              <select id="route" onchange="calculate()">
-                <option value="oral">經口進食 (Oral Intake)</option>
-                <option value="ng">鼻胃管灌食 (NG Tube)</option>
-                <option value="peg">胃造瘻/空腸造瘻 (PEG/J-tube)</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="gi">腸胃道機能</label>
-              <select id="gi" onchange="calculate()">
-                <option value="normal">正常 (Normal)</option>
-                <option value="malabsorption">消化吸收不良 / 短腸症</option>
-                <option value="diarrhea">腹瀉 / 腸黏膜發炎</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="fluid">水分限制需求</label>
-              <select id="fluid" onchange="calculate()">
-                <option value="none">無限制 (30 mL/kg)</option>
-                <option value="restricted">嚴格限水 (如心衰/水腫)</option>
-              </select>
-            </div>
-          </div>
-        </div>
+<https://yht5582-source.github.io/ons-for-all/>
 
-        <div class="card">
-          <h2>4. 院內指定主營養品選擇 (醫令碼對照)</h2>
-          <div class="form-group">
-            <label for="product-select">選擇院內主營養品品項</label>
-            <select id="product-select" onchange="updateProductSpecs()">
-              <optgroup label="一般均衡/經典">
-                <option value="2814162" data-cal="250" data-pro="10.5">益富 益力壯經典55g [2814162]</option>
-                <option value="2814218" data-cal="250" data-pro="10.5">益富 益力康56g [2814218]</option>
-                <option value="2814201" data-cal="250" data-pro="10.0">益富 益力壯20 [2814201]</option>
-                <option value="san_d_std" data-cal="250" data-pro="10.0">三多 補体康</option>
-                <option value="sina_std" data-cal="250" data-pro="10.5">思耐得 補體素優纖A+</option>
-              </optgroup>
-              <optgroup label="濃縮高熱量 (2.0 kcal/mL)">
-                <option value="2814039" data-cal="475" data-pro="20.0">亞培 安素雙卡(香草) [2814039]</option>
-                <option value="1828191" data-cal="400" data-pro="18.0">亞培 安素Ex [1828191]</option>
-              </optgroup>
-              <optgroup label="糖尿病專用">
-                <option value="1828213" data-cal="250" data-pro="10.5">補體素 糖尿病鉻100 [1828213]</option>
-                <option value="san_d_dm" data-cal="250" data-pro="10.5">三多 補体康D</option>
-                <option value="yifu_dm" data-cal="250" data-pro="10.5">益富 益力壯糖尿病配方(香草)</option>
-              </optgroup>
-              <optgroup label="腎臟病未洗腎 (低蛋白)">
-                <option value="2814012" data-cal="425" data-pro="10.6">亞培 腎補納 [2814012]</option>
-                <option value="san_d_lpf" data-cal="250" data-pro="6.0">三多 補体康LPF腎臟病配方</option>
-              </optgroup>
-              <optgroup label="洗腎 / 透析 (高蛋白低電解質)">
-                <option value="2814013" data-cal="425" data-pro="19.1">亞培 普寧勝 [2814013]</option>
-                <option value="quaker_dialysis" data-cal="425" data-pro="19.0">桂格 完膳洗腎</option>
-              </optgroup>
-              <optgroup label="半元素 / 腸造瘻 (Peptide-based)">
-                <option value="2814141" data-cal="250" data-pro="10.5">益富 新普派 [2814141]</option>
-                <option value="nestle_peptamen" data-cal="250" data-pro="10.0">雀巢 佳易得</option>
-              </optgroup>
-              <optgroup label="腫瘤 / 癌症專用 (高蛋白+EPA)">
-                <option value="1828189" data-cal="300" data-pro="16.0">益富 益力壯高效魚油優蛋白 [1828189]</option>
-                <option value="1828058" data-cal="300" data-pro="16.0">卡比 倍速(熱帶水果) [1828058]</option>
-                <option value="1828185" data-cal="300" data-pro="16.0">補體素 倍力(燕麥) [1828185]</option>
-                <option value="2814083" data-cal="300" data-pro="16.0">亞培 倍力素(香草) [2814083]</option>
-                <option value="2814227" data-cal="300" data-pro="16.0">百仕可 速益復omega-3 [2814227]</option>
-              </optgroup>
-              <optgroup label="免疫調節 & 傷口癒合">
-                <option value="2814163" data-cal="250" data-pro="12.0">益富 勉益增 [2814163]</option>
-                <option value="1828113" data-cal="89" data-pro="7.0">亞培 基速得(香橙) [1828113]</option>
-              </optgroup>
-            </select>
-          </div>
-        </div>
-      </div>
+## 專案內容
 
-      <!-- 右側：計算結果與院內配方推薦 -->
-      <div class="output-section">
-        <div class="card">
-          <h2>📊 人體測量與目標熱量/蛋白質</h2>
-          <div class="form-row">
-            <div class="result-box">
-              <div class="result-title">理想體重 (IBW)</div>
-              <div class="result-value" id="res-ibw">-- kg</div>
-            </div>
-            <div class="result-box">
-              <div class="result-title">身體質量指數 (BMI)</div>
-              <div class="result-value" id="res-bmi">--</div>
-              <span id="res-bmi-badge" class="badge badge-info">--</span>
-            </div>
-          </div>
-          <div class="result-box">
-            <div class="result-title">每日目標熱量 (TEE)</div>
-            <div class="result-value" id="res-tee">-- kcal/day</div>
-            <div style="font-size:0.82rem; color:#666;" id="res-tee-detail">--</div>
-          </div>
-          <div class="result-box">
-            <div class="result-title">每日目標蛋白質 (Protein)</div>
-            <div class="result-value" id="res-protein">-- g/day</div>
-            <div style="font-size:0.82rem; color:#666;" id="res-protein-detail">--</div>
-          </div>
-          <div class="result-box">
-            <div class="result-title">每日建議水需求量</div>
-            <div class="result-value" id="res-fluid">-- mL/day</div>
-          </div>
-        </div>
+此 repository 目前包含：
 
-        <div class="card">
-          <h2>💡 院內營養品推薦與醫令建議</h2>
-          <ul class="recommendation-list" id="rec-list">
-            <li>請選擇左側參數以取得院內營養品選用建議。</li>
-          </ul>
-        </div>
+- `index.html`：主要應用程式，內含 HTML、CSS 與 JavaScript。
+- `README.md`：專案說明文件。
 
-        <!-- 院內配方組合試算 -->
-        <div class="card">
-          <h2>🧮 院內營養品與模組試算 (含醫令對照)</h2>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="can-cal">所選配方單罐熱量 (kcal)</label>
-              <input type="number" id="can-cal" value="250" onchange="calculateFormula()">
-            </div>
-            <div class="form-group">
-              <label for="can-pro">所選配方單罐蛋白質 (g)</label>
-              <input type="number" id="can-pro" value="10.5" step="0.1" onchange="calculateFormula()">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="can-count">每日預計灌食/飲用罐數</label>
-            <input type="number" id="can-count" value="6" step="0.5" min="1" max="15" onchange="calculateFormula()">
-          </div>
+專案目前沒有 package manager 設定、建置腳本、後端 API 或自動化測試；可直接以瀏覽器開啟 `index.html` 使用。
 
-          <p style="font-size:0.85rem; color:#555; margin-top:10px; margin-bottom:6px;">
-            ➕ <strong>院內模組補充劑試算 (選填)</strong>：
-          </p>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="mod-pro-type">蛋白質模組</label>
-              <select id="mod-pro-type" onchange="calculateFormula()">
-                <option value="0">不補充</option>
-                <option value="5.0">益富 元氣強 [2814134] (5g/包)</option>
-                <option value="8.0">三多 乳清蛋白C+I [2814222] (8g/匙)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="mod-pro-count">蛋白質模組 (包/匙數)</label>
-              <input type="number" id="mod-pro-count" value="0" min="0" max="10" onchange="calculateFormula()">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="mod-cal-type">熱量模組 (低蛋白需求)</label>
-              <select id="mod-cal-type" onchange="calculateFormula()">
-                <option value="0">不補充</option>
-                <option value="100">益富 易能充 [2814107] (100kcal/包)</option>
-                <option value="80">三多 粉飴 (80kcal/匙)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="mod-cal-count">熱量模組 (包/匙數)</label>
-              <input type="number" id="mod-cal-count" value="0" min="0" max="10" onchange="calculateFormula()">
-            </div>
-          </div>
+## 主要功能
 
-          <div class="result-box" style="background:#EBF5EE; margin-top:12px;">
-            <div class="result-title">院內配方總供應熱量與達成率</div>
-            <div class="result-value" id="res-combo-cal" style="color:#2B9348;">-- kcal (0%)</div>
-            <div style="font-size:0.88rem; margin-top:4px;" id="res-combo-pro">總蛋白質供應: -- g (0%)</div>
-          </div>
-        </div>
+- 輸入基本生理資料：性別、年齡、身高、實際體重。
+- 選擇照護場景與臨床狀態：
+  - 門診 / 社區
+  - 一般病房
+  - ICU / Critical Care
+  - 一般內科、外科手術 / 創傷、敗血症、燒燙傷、腫瘤照護
+- 選擇呼吸器與血糖代謝狀態：
+  - 未使用呼吸器
+  - 使用呼吸器無 CO2 滯留
+  - 使用呼吸器且有 CO2 滯留 / 高碳酸血症
+  - 正常血糖、糖尿病 / 糖耐量異常、應激性高血糖
+- 選擇器官機能與灌食途徑：
+  - 腎功能正常
+  - CKD Stage 1-4 未透析
+  - HD、PD、CRRT
+  - 經口進食、鼻胃管灌食、PEG / J-tube
+  - 正常腸胃道、消化吸收不良 / 短腸症、腹瀉 / 腸黏膜發炎
+  - 一般水分需求或嚴格限水
+- 自動計算：
+  - 理想體重（IBW）
+  - BMI 與體位分類
+  - 每日目標熱量範圍
+  - 每日目標蛋白質範圍
+  - 每日建議水需求量
+- 根據條件顯示院內營養品推薦與醫令建議。
+- 選擇院內主營養品，並依每日罐數試算熱量與蛋白質供應量。
+- 可加入蛋白質模組或熱量模組，估算總熱量、總蛋白質與達成率。
+- 產生「臨床評估摘要與醫令紀錄」文字，並提供一鍵複製。
 
-        <div class="card">
-          <h2>📋 臨床評估摘要與醫令紀錄導出</h2>
-          <div class="summary-text" id="summary-output">評估摘要生成中...</div>
-          <button class="btn" style="margin-top:12px;" onclick="copySummary()">複製院內評估紀錄文本</button>
-        </div>
-      </div>
-    </div>
-  </div>
+## 計算邏輯摘要
 
-  <script>
-    function updateProductSpecs() {
-      const select = document.getElementById('product-select');
-      const selectedOption = select.options[select.selectedIndex];
-      const cal = selectedOption.getAttribute('data-cal');
-      const pro = selectedOption.getAttribute('data-pro');
+`index.html` 內的 JavaScript 目前使用下列邏輯：
 
-      document.getElementById('can-cal').value = cal;
-      document.getElementById('can-pro').value = pro;
+### 理想體重與 BMI
 
-      calculateFormula();
-    }
+- 男性 IBW：`(身高 - 80) * 0.7`
+- 女性 IBW：`(身高 - 70) * 0.6`
+- BMI：`體重 / 身高(m)^2`
 
-    function calculate() {
-      const gender = document.getElementById('gender').value;
-      const height = parseFloat(document.getElementById('height').value) || 0;
-      const weight = parseFloat(document.getElementById('weight').value) || 0;
-      const setting = document.getElementById('setting').value;
-      const specialty = document.getElementById('specialty').value;
-      const ventilator = document.getElementById('ventilator').value;
-      const glycemic = document.getElementById('glycemic').value;
-      const renal = document.getElementById('renal').value;
-      const route = document.getElementById('route').value;
-      const gi = document.getElementById('gi').value;
-      const fluid = document.getElementById('fluid').value;
+BMI 顯示分類包含體重過輕、正常範圍、過重與肥胖。
 
-      if (height <= 0 || weight <= 0) return;
+### 熱量需求
 
-      // 1. IBW & BMI
-      let ibw = gender === 'male' ? (height - 80) * 0.7 : (height - 70) * 0.6;
-      const bmi = weight / ((height / 100) * (height / 100));
+預設每日熱量需求以 IBW 為基準：
 
-      document.getElementById('res-ibw').innerText = ibw.toFixed(1) + ' kg';
-      document.getElementById('res-bmi').innerText = bmi.toFixed(1);
+- 一般狀態：`25-30 kcal/kg`
+- ICU、敗血症、燒燙傷：`30-35 kcal/kg`
+- 大面積燒燙傷：`35-40 kcal/kg`
+- BMI >= 30 且 ICU：改以實際體重估算 `11-14 kcal/kg`
 
-      const bmiBadge = document.getElementById('res-bmi-badge');
-      if (bmi < 18.5) {
-        bmiBadge.innerText = '體重過輕 (Underweight)';
-        bmiBadge.className = 'badge badge-warn';
-      } else if (bmi < 24) {
-        bmiBadge.innerText = '正常範圍 (Normal)';
-        bmiBadge.className = 'badge badge-info';
-      } else if (bmi < 27) {
-        bmiBadge.innerText = '過重 (Overweight)';
-        bmiBadge.className = 'badge badge-primary';
-      } else {
-        bmiBadge.innerText = '肥胖 (Obese)';
-        bmiBadge.className = 'badge badge-warn';
-      }
+### 蛋白質需求
 
-      // 2. 熱量 TEE
-      let kcalPerKgMin = 25, kcalPerKgMax = 30;
-      if (setting === 'icu' || specialty === 'sepsis' || specialty === 'burn') {
-        kcalPerKgMin = 30; kcalPerKgMax = 35;
-      }
-      if (specialty === 'burn') {
-        kcalPerKgMin = 35; kcalPerKgMax = 40;
-      }
+預設蛋白質需求：`1.0-1.2 g/kg IBW/day`
 
-      let refWeight = ibw;
-      if (bmi >= 30 && setting === 'icu') {
-        kcalPerKgMin = 11; kcalPerKgMax = 14;
-        refWeight = weight;
-      }
+依臨床狀態調整：
 
-      const teeMin = Math.round(refWeight * kcalPerKgMin);
-      const teeMax = Math.round(refWeight * kcalPerKgMax);
+- 外科手術 / 創傷、敗血症：`1.2-1.5 g/kg`
+- ICU 或使用呼吸器：`1.2-2.0 g/kg`
+- CKD 未透析：`0.6-0.8 g/kg`
+- HD / PD：`1.2-1.4 g/kg`
+- CRRT：`1.5-2.5 g/kg`
 
-      document.getElementById('res-tee').innerText = `${teeMin} ~ ${teeMax} kcal`;
-      document.getElementById('res-tee-detail').innerText = `依據基準 ${refWeight.toFixed(1)} kg (${kcalPerKgMin}~${kcalPerKgMax} kcal/kg)`;
+### 水分需求
 
-      // 3. 蛋白質需求
-      let proPerKgMin = 1.0, proPerKgMax = 1.2;
-      if (specialty === 'surgical' || specialty === 'sepsis') {
-        proPerKgMin = 1.2; proPerKgMax = 1.5;
-      } else if (setting === 'icu' || ventilator !== 'none') {
-        proPerKgMin = 1.2; proPerKgMax = 2.0;
-      }
+- 無限制：`IBW * 30 mL/day`
+- 嚴格限水：以最低熱量目標約 `1 mL/kcal` 估算
 
-      if (renal === 'ckd_ndd') {
-        proPerKgMin = 0.6; proPerKgMax = 0.8;
-      } else if (renal === 'hd' || renal === 'pd') {
-        proPerKgMin = 1.2; proPerKgMax = 1.4;
-      } else if (renal === 'crrt') {
-        proPerKgMin = 1.5; proPerKgMax = 2.5;
-      }
+### 配方試算
 
-      const proMin = Math.round(ibw * proPerKgMin);
-      const proMax = Math.round(ibw * proPerKgMax);
+配方試算使用畫面中所選的：
 
-      document.getElementById('res-protein').innerText = `${proMin} ~ ${proMax} g`;
-      document.getElementById('res-protein-detail').innerText = `估算標準: ${proPerKgMin}~${proPerKgMax} g/kg IBW/day`;
+- 主營養品單份熱量與蛋白質
+- 每日罐數
+- 蛋白質模組數量
+- 熱量模組數量
 
-      // 4. 水分需求
-      let fluidVal = fluid === 'restricted' ? Math.round(teeMin * 1.0) : Math.round(ibw * 30);
-      document.getElementById('res-fluid').innerText = `${fluidVal} mL/day`;
+結果顯示總熱量、總蛋白質，以及相對於目標需求的達成率。
 
-      // 5. 院內配方推薦邏輯
-      const recs = [];
+## 院內營養品資料
 
-      // 疾病與院內配方推薦
-      if (renal === 'ckd_ndd') {
-        recs.push(`🌟 <strong>未洗腎腎臟病 (CKD)：</strong> 建議選用 <span class="code-tag">2814012</span> 亞培腎補納，若需增加熱量不增蛋白，可搭配 <span class="code-tag">2814107</span> 益富易能充。`);
-      } else if (renal === 'hd' || renal === 'pd' || renal === 'crrt') {
-        recs.push(`🌟 <strong>透析/CRRT：</strong> 建議選用高蛋白低電解質配方 <span class="code-tag">2814013</span> 亞培普寧勝，若蛋白質需求高可搭配 <span class="code-tag">2814134</span> 益富元氣強。`);
-      }
+目前院內品項資料直接寫在 `index.html` 的 `<select id="product-select">` 選單與相關 `data-cal`、`data-pro` 屬性中。包含下列類別：
 
-      if (specialty === 'oncology') {
-        recs.push(`<strong>腫瘤癌症照護：</strong> 建議高蛋白高 EPA 魚油專用配方，如 <span class="code-tag">1828189</span> 益力壯高效魚油優蛋白、<span class="code-tag">1828058</span> 倍速、或 <span class="code-tag">2814083</span> 倍力素。`);
-      }
+- 一般均衡 / 經典
+- 濃縮高熱量
+- 糖尿病專用
+- 腎臟病未洗腎低蛋白
+- 洗腎 / 透析高蛋白低電解質
+- 半元素 / 腸造瘻配方
+- 腫瘤 / 癌症專用
+- 免疫調節與傷口癒合
 
-      if (glycemic === 'diabetes' || glycemic === 'stress_hyperglycemia') {
-        recs.push(`<strong>糖尿病專用：</strong> 建議選用低 GI 鉻配方，如 <span class="code-tag">1828213</span> 補體素糖尿病鉻100、三多補体康D 或 益力壯糖尿病配方。`);
-      }
+畫面也包含蛋白質模組與熱量模組：
 
-      if (route === 'peg') {
-        recs.push(`<strong>腸造瘻/空腸造瘻：</strong> 建議半元素水解胜肽配方 <span class="code-tag">2814141</span> 益富新普派 或 雀巢佳易得。`);
-      }
+- 益富 元氣強 `[2814134]`
+- 三多 乳清蛋白 C+I `[2814222]`
+- 益富 易能充 `[2814107]`
+- 三多 粉飴
 
-      if (setting === 'icu' || specialty === 'surgical') {
-        recs.push(`<strong>重症/傷口照護：</strong> 建議補充 <span class="code-tag">2814163</span> 勉益增、<span class="code-tag">1828113</span> 基速得，或麩醯胺酸補充劑 <span class="code-tag">1828188</span> 福惜素 / <span class="code-tag">2814081</span> 速養療。`);
-      }
+## 使用方式
 
-      if (recs.length === 0) {
-        recs.push(`<strong>一般均衡營養：</strong> 建議選用 <span class="code-tag">2814162</span> 益富益力壯經典、<span class="code-tag">2814218</span> 益力康，或 三多補体康。`);
-      }
+### 線上使用
 
-      const recList = document.getElementById('rec-list');
-      recList.innerHTML = recs.map(r => `<li>${r}</li>`).join('');
+開啟 GitHub Pages：
 
-      calculateFormula();
-    }
+<https://yht5582-source.github.io/ons-for-all/>
 
-    function calculateFormula() {
-      const teeText = document.getElementById('res-tee').innerText;
-      const proText = document.getElementById('res-protein').innerText;
+### 本機使用
 
-      let targetTee = 1800;
-      let targetPro = 60;
+下載 repository 後，直接用瀏覽器開啟 `index.html`。
 
-      if (teeText.includes('~')) {
-        const parts = teeText.replace('kcal', '').split('~');
-        targetTee = (parseInt(parts[0]) + parseInt(parts)) / 2;
-      }
-      if (proText.includes('~')) {
-        const parts = proText.replace('g', '').split('~');
-        targetPro = (parseFloat(parts[0]) + parseFloat(parts)) / 2;
-      }
+目前不需要執行安裝、建置或啟動伺服器命令。
 
-      const canCal = parseFloat(document.getElementById('can-cal').value) || 0;
-      const canPro = parseFloat(document.getElementById('can-pro').value) || 0;
-      const canCount = parseFloat(document.getElementById('can-count').value) || 0;
+## 維護注意事項
 
-      const modProVal = parseFloat(document.getElementById('mod-pro-type').value) || 0;
-      const modProCount = parseFloat(document.getElementById('mod-pro-count').value) || 0;
+- 此專案目前是單一靜態 HTML 檔，樣式與計算邏輯都集中在 `index.html`。
+- 若修改院內品項，需同步確認品名、醫令碼、熱量、蛋白質與推薦文字是否一致。
+- 若修改臨床公式，建議由醫師與營養師共同核對後再發布。
+- 若品項數量增加，可考慮日後將營養品資料拆成獨立資料檔，降低維護成本。
 
-      const modCalVal = parseFloat(document.getElementById('mod-cal-type').value) || 0;
-      const modCalCount = parseFloat(document.getElementById('mod-cal-count').value) || 0;
+## 臨床使用聲明
 
-      const totalCal = Math.round((canCal * canCount) + (modCalVal * modCalCount));
-      const totalPro = parseFloat(((canPro * canCount) + (modProVal * modProCount)).toFixed(1));
-
-      const calAchieve = Math.round((totalCal / targetTee) * 100);
-      const proAchieve = Math.round((totalPro / targetPro) * 100);
-
-      document.getElementById('res-combo-cal').innerText = `${totalCal} kcal (熱量達成率: ${calAchieve}%)`;
-      document.getElementById('res-combo-pro').innerText = `總蛋白質供應: ${totalPro} g (蛋白質達成率: ${proAchieve}%)`;
-
-      updateSummaryText(totalCal, calAchieve, totalPro, proAchieve);
-    }
-
-    function updateSummaryText(totalCal, calAchieve, totalPro, proAchieve) {
-      const select = document.getElementById('product-select');
-      const productName = select.options[select.selectedIndex].text;
-      const gender = document.getElementById('gender').value === 'male' ? '男' : '女';
-      const height = document.getElementById('height').value;
-      const weight = document.getElementById('weight').value;
-      const ibw = document.getElementById('res-ibw').innerText;
-      const bmi = document.getElementById('res-bmi').innerText;
-      const setting = document.getElementById('setting').options[document.getElementById('setting').selectedIndex].text;
-      const route = document.getElementById('route').options[document.getElementById('route').selectedIndex].text;
-      const tee = document.getElementById('res-tee').innerText;
-      const pro = document.getElementById('res-protein').innerText;
-
-      const summary = `【中國醫藥大學北港附設醫院 臨床營養評估與醫令紀錄】
-病患基本數據: ${gender}, ${height}cm, ${weight}kg (IBW: ${ibw}, BMI: ${bmi})
-照護場景: ${setting} | 灌食途徑: ${route}
-----------------------------------------
-營養目標需求:
-- 每日目標熱量: ${tee}
-- 每日目標蛋白質: ${pro}
-----------------------------------------
-處方配方與醫令紀錄:
-- 主營養品品項: ${productName} (${document.getElementById('can-count').value} 罐/日)
-- 總熱量供應: ${totalCal} kcal (熱量達成率 ${calAchieve}%)
-- 總蛋白質供應: ${totalPro} g (蛋白質達成率 ${proAchieve}%)
-評估時間: ${new Date().toLocaleString()}`;
-
-      document.getElementById('summary-output').innerText = summary;
-    }
-
-    function copySummary() {
-      const summaryText = document.getElementById('summary-output').innerText;
-      navigator.clipboard.writeText(summaryText).then(() => {
-        alert('已成功複製院內臨床評估與醫令紀錄文本！');
-      }).catch(err => {
-        alert('複製失敗，請手動複製文字框內容。');
-      });
-    }
-
-    window.onload = function() {
-      calculate();
-    };
-  </script>
-</body>
-</html>
+本工具用於院內營養評估、配方試算與醫令文字整理的輔助。試算結果不能取代臨床判斷，使用時仍需整合病人診斷、檢驗資料、腎功能、電解質、水分限制、血糖控制、腸胃耐受性、吞嚥功能與營養師評估。
