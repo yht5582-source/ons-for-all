@@ -706,7 +706,7 @@ const ONS = (() => {
     const notes = [];
     const ibw = ibwOf(x.gender, x.height);
     const bmi = x.weight / Math.pow(x.height / 100, 2);
-    const acute = x.setting === 'icu' || ['surgical', 'sepsis', 'burn'].includes(x.specialty);
+    const acute = x.setting === 'icu' || x.ventilator !== 'none' || ['surgical', 'sepsis', 'burn'].includes(x.specialty);
     const critical = x.setting === 'icu' || x.ventilator !== 'none';
     const obeseIcu = x.setting === 'icu' && bmi >= 30;
 
@@ -755,6 +755,9 @@ const ONS = (() => {
     if (x.renal === 'ckd35') {
       if (acute) {
         notes.push('CKD 3–5 合併急性/重症狀態：不建議限制蛋白質（ASPEN 2016），以目前疾病需求為準並監測 BUN、K、P。');
+        if (x.ventilator !== 'none' && x.setting !== 'icu' && !['surgical', 'sepsis', 'burn'].includes(x.specialty)) {
+          notes.push('使用呼吸器一律視為不限制蛋白質；長期呼吸器且代謝穩定者，請依臨床判斷是否調整。');
+        }
       } else {
         pro = { perLo: 0.6, perHi: 0.8, why: 'CKD 3–5 未透析（KDOQI 2020 / KDIGO 2024）', w: doseW, wLabel: basisLabel };
         notes.push('CKD 3–5 未透析：KDOQI 2020 非糖尿病 0.55–0.6 g/kg（需營養師追蹤）、糖尿病 0.6–0.8 g/kg；KDIGO 2024 建議 0.8 g/kg。熱量需足夠（25–35 kcal/kg）以免蛋白質分解。');
@@ -829,13 +832,15 @@ const ONS = (() => {
     }
 
     if (x.specialty === 'oncology') {
-      add('rec', `<strong>腫瘤癌症照護：</strong> 高蛋白含 EPA 魚油配方，如 ${list(['1828189', '1828058', '2814083'])}；體重持續下降者 EPA 約 2 g/day 可能有助維持食慾與體重（ESPEN 2021）。`);
+      add('rec', `<strong>腫瘤癌症照護：</strong> 高蛋白含 EPA 魚油配方，如 ${list(['1828189', '1828058', '2814083'])}；晚期癌症接受化療且有體重下降風險或營養不良者，可考慮補充魚油／長鏈 n-3 脂肪酸以穩定食慾、進食量與體重（ESPEN 2021 弱建議、證據等級低）。`);
     }
 
     if (x.glycemic !== 'normal') {
-      const kidney = x.renal === 'ckd35' || x.renal === 'hd' || x.renal === 'pd';
+      const kidney = (x.renal === 'ckd35' && !t.acute) || x.renal === 'hd' || x.renal === 'pd';
+      const ckdAcute = x.renal === 'ckd35' && t.acute;
       add('rec', `<strong>${x.glycemic === 'diabetes' ? '糖尿病' : '應激性高血糖'}：</strong> 低 GI 糖尿病配方 ${list(['1828213', '三多 補体康D', '益富 益力壯糖尿病配方(香草)'])}` +
-        (kidney ? '；合併腎病時以腎臟/透析配方為優先（多為低 GI），血糖以胰島素調整。' : '。') +
+        (kidney ? '；合併腎病時以腎臟/透析配方為優先（多為低 GI），血糖以胰島素調整。' :
+          ckdAcute ? '；CKD 合併急性/重症時不限制蛋白質，不以低蛋白腎臟配方為優先，依目前蛋白質目標選配方並監測 K、P。' : '。') +
         (x.glycemic === 'stress_hyperglycemia' ? '應激性高血糖以血糖控制（目標 140–180 mg/dL）為主，配方選擇為輔。' : ''));
     }
 
@@ -974,7 +979,7 @@ const CASES = [
       ['先定蛋白質', '穩定 CKD 3–5：工具用 0.6–0.8 g/kg，即 35–46 g。上限 46 g 正好等於 KDIGO 2024 的 0.8 g/kg。'],
       ['再選配方', '合併腎病時以腎臟配方為優先，血糖用胰島素或藥物調整。腎補納 4 罐同時達到熱量與蛋白質目標。'],
       ['水分', '配方含水約 664 mL，目標 1740 mL，自由水約 1076 mL（含沖管與給藥水）；若有水腫或限水，要改用醫囑水量。'],
-      ['狀況改變時', '因敗血症住院後屬代謝不穩定，不應再處方低蛋白（KDIGO PP 3.3.1.3）；工具把目標改為 1.2–1.5 g/kg（70–87 g）。此時建議欄的糖尿病文字仍寫腎臟配方優先，選品項時要以新的蛋白質目標為準。'],
+      ['狀況改變時', '因敗血症住院後屬代謝不穩定，不應再處方低蛋白（KDIGO PP 3.3.1.3）；工具把目標改為 1.2–1.5 g/kg（70–87 g），也不再以低蛋白腎臟配方為優先；腎補納 4 罐此時蛋白質會不足。'],
       ['衰弱長者', '若有衰弱或肌少症，可考慮較高的蛋白質與熱量目標（KDIGO PP 3.3.1.5），0.6–0.8 不是不能調整的數字。']
     ],
     trap: '「糖尿病」不等於「選糖尿病配方」。這裡要算足熱量需 7 罐糖尿病配方，蛋白質 84 g，約為上限 46 g 的 1.8 倍。',

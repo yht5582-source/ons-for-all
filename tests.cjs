@@ -104,6 +104,20 @@ ok(has(levels({ ventilator: 'hypercapnia' }), /過度餵食/), 'hypercapnia advi
 ok(has(levels({ specialty: 'burn' }), /0\.3–0\.5 g\/kg/), 'burn glutamine dose');
 ok(has(levels({ route: 'ng' }, '2814163'), /未標示可管灌/), 'tube-unlabelled info');
 
+// 腫瘤魚油：不列 ESPEN 2021 實務指引未載明的 EPA 劑量
+ok(!levels({ specialty: 'oncology' }).some(r => /2 g\/day/.test(r.html)), 'no EPA dose');
+ok(has(levels({ specialty: 'oncology' }), /弱建議/, 'rec'), 'fish oil weak recommendation');
+// 呼吸器＋CKD 3–5：不限制蛋白質
+{ const v = T({ renal: 'ckd35', ventilator: 'normal' }); eq([v.acute, v.pro.perLo, v.pro.perHi], [true, 1.2, 2], 'ward ventilator CKD not restricted'); ok(v.notes.some(n => /長期呼吸器/.test(n)), 'chronic ventilator note'); }
+ok(!T({ renal: 'ckd35', setting: 'icu', ventilator: 'normal' }).notes.some(n => /長期呼吸器/.test(n)), 'no chronic note in ICU');
+ok(!has(levels({ renal: 'ckd35', ventilator: 'normal' }), /未洗腎腎臟病/), 'ventilator CKD no low-protein rec');
+ok(!has(levels({ renal: 'ckd35', ventilator: 'normal' }, '2814013'), /高蛋白配方/, 'warn'), 'ventilator CKD no high-protein warn');
+// 糖尿病＋CKD：穩定期腎臟配方優先，急性期不優先
+ok(has(levels({ renal: 'ckd35', glycemic: 'diabetes' }), /腎臟\/透析配方為優先/, 'rec'), 'DM stable CKD renal first');
+ok(!has(levels({ renal: 'ckd35', glycemic: 'diabetes', specialty: 'sepsis' }), /腎臟\/透析配方為優先/), 'DM acute CKD not renal first');
+ok(has(levels({ renal: 'ckd35', glycemic: 'diabetes', specialty: 'sepsis' }), /不以低蛋白腎臟配方為優先/, 'rec'), 'DM acute CKD wording');
+ok(has(levels({ renal: 'hd', glycemic: 'diabetes', setting: 'icu' }), /腎臟\/透析配方為優先/, 'rec'), 'DM HD still renal first');
+
 // ── 教學內容 ──
 const block = (a, b) => html.slice(html.indexOf(a), html.indexOf(b));
 const { CASES, caseCalc, QUIZ, MAP, MAP_ROOT } = new Function('ONS', block('/*CASES-START*/', '/*CASES-END*/') + block('/*QUIZ-START*/', '/*QUIZ-END*/') + block('/*MAP-START*/', '/*MAP-END*/') + '; return { CASES, caseCalc, QUIZ, MAP, MAP_ROOT };')(ONS);
