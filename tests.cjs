@@ -104,5 +104,70 @@ ok(has(levels({ ventilator: 'hypercapnia' }), /過度餵食/), 'hypercapnia advi
 ok(has(levels({ specialty: 'burn' }), /0\.3–0\.5 g\/kg/), 'burn glutamine dose');
 ok(has(levels({ route: 'ng' }, '2814163'), /未標示可管灌/), 'tube-unlabelled info');
 
+// ── 教學內容 ──
+const block = (a, b) => html.slice(html.indexOf(a), html.indexOf(b));
+const { CASES, caseCalc, QUIZ, MAP, MAP_ROOT } = new Function('ONS', block('/*CASES-START*/', '/*CASES-END*/') + block('/*QUIZ-START*/', '/*QUIZ-END*/') + block('/*MAP-START*/', '/*MAP-END*/') + '; return { CASES, caseCalc, QUIZ, MAP, MAP_ROOT };')(ONS);
+eq(CASES.length, 6, '6 cases');
+CASES.forEach(c => {
+  const k = caseCalc(c.x, c.rx, ONS), e = c.expect;
+  eq([k.t.kcal.lo, k.t.kcal.hi], e.kcal, c.id + ' kcal target');
+  eq([k.t.pro.lo, k.t.pro.hi], e.pro, c.id + ' protein target');
+  eq(k.t.fluid.ml, e.fluid, c.id + ' fluid');
+  eq([k.s.kcal, k.s.pro], e.supply, c.id + ' supply');
+  eq(k.s.water, e.water, c.id + ' water');
+  [c.rx].concat(c.alts).forEach(rx => ok(ONS.findProduct(rx.pid), c.id + ' product exists ' + rx.pid));
+});
+const CC = id => CASES.find(c => c.id === id);
+const alt = (id, i) => caseCalc(CC(id).x, CC(id).alts[i], ONS);
+// c1：起始低於目標但在 10–20 kcal/kg 內；3 罐落在目標內
+{ const k = caseCalc(CC('c1').x, CC('c1').rx, ONS); eq(k.jc.status, 'low', 'c1 start below goal'); ok(k.s.kcal >= 420 && k.s.kcal <= 840, 'c1 start 10–20 kcal/kg'); eq(alt('c1', 0).jc.status, 'ok', 'c1 3 cans ok'); }
+// c2：急性期 3 瓶 990 kcal = 15.7 kcal/kg，<70% 中位數
+{ const k = alt('c2', 0); eq(k.s.kcal, 990, 'c2 3 bottles'); eq(Math.round(k.s.kcal / 63 * 10) / 10, 15.7, 'c2 kcal/kg'); ok(k.s.kcal <= (1575 + 1890) / 2 * 0.7, 'c2 below 70%'); eq(Math.round(63 * 12), 756, 'c2 12 kcal/kg'); eq(Math.round((1575 + 1890) / 2 * 0.7), 1213, 'c2 70%'); }
+// c3：只有主處方兩者皆達標；安素 Ex 3+乳清 10 差一點
+{ const k = caseCalc(CC('c3').x, CC('c3').rx, ONS); eq([k.jc.status, k.jp.status], ['ok', 'ok'], 'c3 both ok'); CC('c3').alts.forEach((r, i) => ok(alt('c3', i).jp.status === 'low', 'c3 alt low protein ' + i)); eq(alt('c3', 0).s.pro, 80, 'c3 80 g'); eq(Math.round(k.t.adjusted * 1.3), 82, 'c3 ESPEN 82 g'); eq(Math.round(k.t.adjusted * 25), 1584, 'c3 adj 25'); eq(k.t.fluid.ml, 1900, 'c3 adj 30'); }
+// c4
+{ const k = caseCalc(CC('c4').x, CC('c4').rx, ONS); eq([k.jc.status, k.jp.status], ['ok', 'ok'], 'c4 ok'); eq(alt('c4', 0).s.pro, 34, 'c4 LPF 34 g'); eq(alt('c4', 0).jp.status, 'low', 'c4 LPF low'); ok(alt('c4', 1).recs.some(r => r.level === 'warn' && /高蛋白配方/.test(r.html)), 'c4 普寧勝 warn'); eq(alt('c4', 2).s.pro, 84, 'c4 DM 84 g'); eq(Math.round(84 / 46 * 10) / 10, 1.8, 'c4 DM ratio'); eq(k.t.fluid.ml - k.s.water, 1076, 'c4 free water'); const up = T(Object.assign({}, CC('c4').x, { setting: 'ward', specialty: 'sepsis' })); eq([up.pro.lo, up.pro.hi], [70, 87], 'c4 sepsis protein'); }
+// c5
+{ const k = caseCalc(CC('c5').x, CC('c5').rx, ONS); eq([k.jc.status, k.jp.status], ['ok', 'ok'], 'c5 ok'); eq(alt('c5', 0).s.pro, 64.2, 'c5 完膳'); eq(alt('c5', 0).jp.status, 'high', 'c5 完膳 high'); eq(alt('c5', 1).jp.status, 'low', 'c5 腎補納 low'); eq(k.s.water + 180, 678, 'c5 water + flush'); }
+// c6
+{ const k = caseCalc(CC('c6').x, CC('c6').rx, ONS); eq([k.jc.status, k.jp.status], ['ok', 'ok'], 'c6 ok'); eq(alt('c6', 0).jc.status, 'low', 'c6 佳易得 low'); ok(alt('c6', 1).recs.some(r => r.level === 'warn' && /非完整營養/.test(r.html)), 'c6 基速得 warn'); eq(k.t.fluid.ml - k.s.water, 550, 'c6 free water'); ok(k.recs.some(r => /連續滴注/.test(r.html)), 'c6 pump'); }
+
+// 考題：結構
+eq(QUIZ.length, 20, '20 questions');
+eq([QUIZ.filter(q => q.l === 'basic').length, QUIZ.filter(q => q.l === 'adv').length], [10, 10], '10 + 10');
+eq([0, 1, 2, 3].map(n => QUIZ.filter(q => q.a === n).length), [5, 5, 5, 5], 'A–D 5 each');
+QUIZ.forEach((q, i) => { eq(q.o.length, 4, 'Q' + (i + 1) + ' options'); eq(new Set(q.o).size, 4, 'Q' + (i + 1) + ' unique'); ok(q.x && q.src, 'Q' + (i + 1) + ' explained'); });
+const ans = i => QUIZ[i - 1].o[QUIZ[i - 1].a];
+// 考題：答案對引擎
+const r1t = v => Math.round(v * 10) / 10;
+eq(ans(1), `${ONS.ibwOf('female', 160)} kg`, 'Q1');
+ok(ans(2).startsWith(String(r1t(T({ weight: 90 }).doseW))), 'Q2');
+eq(ans(3), `${T({ weight: 50 }).kcal.lo} kcal`, 'Q3');
+eq(ans(4), `${T({ specialty: 'burn' }).pro.perLo.toFixed(1)}–${T({ specialty: 'burn' }).pro.perHi.toFixed(1)} g/kg`, 'Q4');
+eq(ans(5), `${T({ renal: 'ckd35' }).pro.perLo}–${T({ renal: 'ckd35' }).pro.perHi} g/kg`, 'Q5');
+eq(ONS.judge(1320, 1500, 1800).pct + '%', ans(8), 'Q8');
+eq(ans(10), `${T({}).fluid.ml} mL`, 'Q10');
+const ob38 = { setting: 'icu', gender: 'female', height: 158, weight: 95 };
+eq(ans(11), `${T(ob38).kcal.lo}–${T(ob38).kcal.hi} kcal`, 'Q11');
+eq(ans(12), `${T({ ...ob38, renal: 'crrt' }).pro.lo}–${T({ ...ob38, renal: 'crrt' }).pro.hi} g`, 'Q12');
+eq(ans(13), `${Math.round(T(ob38).adjusted * 1.3)} g`, 'Q13');
+eq(ans(14), `${42 * 10}–${42 * 20} kcal`, 'Q14');
+ok(!T({ weight: 62 }).notes.some(n => /再餵食/.test(n)), 'Q15 no refeeding note at weight ≥ IBW');
+ok(T({ weight: 50 }).notes.some(n => /再餵食/.test(n)), 'Q15 note below IBW');
+{ const up = T({ renal: 'ckd35', specialty: 'sepsis' }); eq([up.pro.perLo, up.pro.perHi], [1.2, 1.5], 'Q16'); ok(ans(16).includes('1.2–1.5'), 'Q16 text'); }
+ok(has(levels({ ventilator: 'hypercapnia' }), /過度餵食/), 'Q17');
+{ const a = ONS.supply({ productId: '2814039', canCal: 478, canPro: 19.9, canCount: 3 }), b = ONS.supply({ productId: '2814162', canCal: 251, canPro: 8.8, canCount: 6 }); eq([a.kcal, a.water, b.water], [1434, 498, 1260], 'Q18'); }
+ok(ans(20).includes('990'), 'Q20');
+
+// 心智圖
+eq(MAP.length, 8, 'map branches');
+ok(MAP_ROOT.includes('評估'), 'map root');
+const mapText = JSON.stringify(MAP);
+['11–14 kcal/kg 實際體重', '22–25 kcal/kg IBW', '0.6–0.8 g/kg', '1.5–2.5 g/kg', '10–20 kcal/kg', '0.3–0.5 g/kg/日', '140 或 150–180'].forEach(s => ok(mapText.includes(s), 'map has ' + s));
+ok(MAP.some(b => b.products), 'map product branch');
+
+// 頁面結構
+['tab-tool', 'tab-cases', 'tab-quiz', 'tab-map', 'case-body', 'quiz-body', 'map-body'].forEach(id => ok(html.includes(`id="${id}"`), 'html has ' + id));
+
 console.log(`${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

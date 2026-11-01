@@ -240,6 +240,70 @@
       color: var(--text-muted);
       margin-top: 10px;
     }
+    .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+    .tab {
+      flex: 1 1 auto; padding: 10px 16px; border: 1px solid var(--border-color); border-radius: 8px;
+      background: var(--card-bg); color: var(--text-dark); font: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer;
+    }
+    .tab[aria-selected="true"] { background: var(--primary); border-color: var(--primary); color: #FFF; }
+    .tab:focus-visible, .chip:focus-visible, .q-opt:focus-visible, .btn-ghost:focus-visible { outline: 3px solid rgba(224, 122, 95, 0.45); outline-offset: 2px; }
+    .pane[hidden] { display: none; }
+    .lead { font-size: 0.92rem; color: #555; margin-bottom: 14px; }
+    .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+    .chip {
+      padding: 7px 12px; border: 1px solid #D1C7BD; border-radius: 999px; background: #FAFAFA;
+      color: var(--text-dark); font: inherit; font-size: 0.86rem; cursor: pointer;
+    }
+    .chip[aria-pressed="true"] { background: var(--secondary); border-color: var(--secondary); color: #16302A; font-weight: 600; }
+    .btn-ghost {
+      padding: 9px 14px; border: 1px solid var(--primary); border-radius: 8px; background: #FFF;
+      color: var(--primary-hover); font: inherit; font-size: 0.9rem; font-weight: 600; cursor: pointer;
+    }
+    .case-stem { font-size: 0.95rem; margin-bottom: 10px; }
+    .case-ask { background: #F4F1DE; border-radius: 8px; padding: 10px 12px; font-size: 0.92rem; font-weight: 600; margin-bottom: 12px; }
+    .teach-wrap { overflow-x: auto; margin: 0 0 14px; }
+    table.teach { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    table.teach th, table.teach td { border-bottom: 1px solid var(--border-color); padding: 7px 8px; text-align: left; vertical-align: top; }
+    table.teach th { background: #FBF6EE; font-weight: 600; white-space: nowrap; }
+    table.teach td.ok { color: #2B7A3D; font-weight: 600; }
+    table.teach td.off { color: #A4133C; font-weight: 600; }
+    details.reveal { border: 1px solid var(--border-color); border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; }
+    details.reveal > summary { cursor: pointer; font-weight: 600; color: var(--primary-hover); }
+    details.reveal[open] > summary { margin-bottom: 10px; }
+    .step { margin-bottom: 10px; font-size: 0.92rem; }
+    .step b { display: block; color: var(--text-dark); }
+    .sub-h { font-size: 0.92rem; font-weight: 700; margin: 12px 0 6px; }
+    .trap { border-left: 4px solid #C9184A; background: #FFF0F3; border-radius: 4px; padding: 8px 10px; font-size: 0.9rem; margin-bottom: 12px; }
+    .src { font-size: 0.8rem; color: var(--text-muted); }
+    .quiz-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+    .quiz-bar .chips { margin-bottom: 0; }
+    .score { font-size: 0.92rem; font-weight: 600; }
+    .q { border-top: 1px solid var(--border-color); padding: 14px 0; }
+    .q:first-of-type { border-top: 0; padding-top: 0; }
+    .q-h { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
+    .q-lv { display: inline-block; font-size: 0.74rem; font-weight: 700; border-radius: 5px; padding: 1px 6px; margin-right: 6px; background: #E2EFCB; color: #3A5A40; }
+    .q-lv.adv { background: #E07A5F; color: #FFF; }
+    .q-opt {
+      display: block; width: 100%; text-align: left; padding: 8px 11px; margin-bottom: 6px; border: 1px solid #D1C7BD;
+      border-radius: 8px; background: #FAFAFA; color: var(--text-dark); font: inherit; font-size: 0.9rem; cursor: pointer;
+    }
+    .q-opt:disabled { cursor: default; color: var(--text-dark); }
+    .q-opt.right { background: #E2EFCB; border-color: #6A994E; font-weight: 600; }
+    .q-opt.wrong { background: #FFF0F3; border-color: #C9184A; }
+    .q-x { font-size: 0.9rem; background: #FBF6EE; border-radius: 8px; padding: 9px 11px; margin-top: 4px; }
+    .map-root { text-align: center; font-weight: 700; background: linear-gradient(135deg, #F4F1DE 0%, #F2CC8F 100%); border-radius: 10px; padding: 10px; margin-bottom: 14px; }
+    .map-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .map-br { border: 1px solid var(--border-color); border-top: 4px solid var(--secondary); border-radius: 8px; padding: 10px 12px; }
+    .map-br > summary { cursor: pointer; font-weight: 700; font-size: 0.95rem; }
+    .map-node { margin: 8px 0 0 4px; padding-left: 12px; border-left: 2px solid var(--accent); }
+    .map-node b { display: block; font-size: 0.88rem; }
+    .map-node ul { list-style: none; font-size: 0.85rem; color: #4A4D63; }
+    .map-node li { position: relative; padding: 2px 0 2px 12px; }
+    .map-node li::before { content: ""; position: absolute; left: -12px; top: 12px; width: 18px; border-top: 2px solid var(--accent); }
+    .map-tools { display: flex; gap: 8px; margin-bottom: 12px; }
+    .src-list { font-size: 0.82rem; color: #555; padding-left: 18px; }
+    .src-list li { margin-bottom: 4px; }
+    @media (max-width: 760px) { .map-grid { grid-template-columns: 1fr; } }
     @media (max-width: 520px) {
       body { padding: 12px; }
       header h1 { font-size: 1.3rem; }
@@ -248,7 +312,7 @@
     }
     @media print {
       body { background: #fff; padding: 0; }
-      .input-section, .btn, .refs-card { display: none; }
+      .input-section, .btn, .refs-card, .tabs, .chips, .btn-ghost, .map-tools { display: none; }
       .main-grid { grid-template-columns: 1fr; }
       .card { box-shadow: none; break-inside: avoid; }
       .summary-text { max-height: none; background: #fff; color: #000; border: 1px solid #999; }
@@ -263,6 +327,14 @@
       <p>嚴格對照院內現有營養品清單（含醫令碼），支援門診/病房/ICU/呼吸器/內外科及各式灌食途徑</p>
     </header>
 
+    <nav class="tabs" role="tablist" aria-label="功能分頁">
+      <button class="tab" type="button" role="tab" id="tab-tool" aria-controls="tool" data-t="tool">🧮 試算工具</button>
+      <button class="tab" type="button" role="tab" id="tab-cases" aria-controls="cases" data-t="cases">🩺 示範病例</button>
+      <button class="tab" type="button" role="tab" id="tab-quiz" aria-controls="quiz" data-t="quiz">📝 考題</button>
+      <button class="tab" type="button" role="tab" id="tab-map" aria-controls="map" data-t="map">🧠 心智圖</button>
+    </nav>
+
+    <section class="pane" id="tool" role="tabpanel" aria-labelledby="tab-tool">
     <div class="main-grid">
       <!-- 左側：輸入參數 -->
       <div class="input-section" id="inputs">
@@ -514,6 +586,45 @@
         <li>院內品項熱量/蛋白質：依各品項廠商現行標示（與「ons-choice-for-all」品項資料同步，2026-10）。</li>
       </ol>
       <p class="disclaimer">本工具僅供臨床營養評估輔助，數值為起始估計，實際處方須依病人臨床狀況、檢驗數據、間接熱量測定與營養師/醫師專業判斷調整。</p>
+    </div>
+    </section>
+
+    <section class="pane" id="cases" role="tabpanel" aria-labelledby="tab-cases" hidden>
+      <div class="card">
+        <h2>🩺 示範病例（6 例）</h2>
+        <p class="lead">先看病人資料，自己想過再展開解析。表格數字由上方試算引擎即時算出；按「帶入試算工具」可在工具中繼續調整。</p>
+        <div class="chips" id="case-chips"></div>
+        <div id="case-body"></div>
+      </div>
+    </section>
+
+    <section class="pane" id="quiz" role="tabpanel" aria-labelledby="tab-quiz" hidden>
+      <div class="card">
+        <h2>📝 考題（基礎 10 題＋高階 10 題）</h2>
+        <div class="quiz-bar">
+          <div class="chips" id="quiz-filter"></div>
+          <span class="score" id="quiz-score" aria-live="polite"></span>
+          <button class="btn-ghost" type="button" id="quiz-reset">重新作答</button>
+        </div>
+        <div id="quiz-body"></div>
+      </div>
+    </section>
+
+    <section class="pane" id="map" role="tabpanel" aria-labelledby="tab-map" hidden>
+      <div class="card">
+        <h2>🧠 營養處方心智圖</h2>
+        <div class="map-tools">
+          <button class="btn-ghost" type="button" id="map-open">全部展開</button>
+          <button class="btn-ghost" type="button" id="map-close">全部收合</button>
+        </div>
+        <div id="map-body"></div>
+      </div>
+    </section>
+
+    <div class="card refs-card" id="teach-src" hidden>
+      <h2>📚 教材依據</h2>
+      <ol class="src-list" id="teach-src-list"></ol>
+      <p class="disclaimer">教學病例為虛構。內容供教學使用，不能取代臨床判斷。</p>
     </div>
   </div>
 
@@ -779,6 +890,226 @@ const ONS = (() => {
 })();
 /*ENGINE-END*/
 
+/*CASES-START*/
+// 數字由引擎即時算出；expect 由 tests.cjs 核對，敘述中的數字若變動要一併改
+const CASES = [
+  {
+    id: 'c1', tag: '門診腫瘤・再餵食', title: '晚期食道癌，3 個月瘦 6 公斤',
+    stem: '62 歲女性，155 cm、42 kg，晚期食道癌接受化療。3 個月前 48 kg（下降 12.5%），近 6 天幾乎沒吃，吞嚥仍可。門診抽血 K、Mg、P 尚未回報。',
+    ask: '工具顯示目標 1050–1260 kcal。今天就開到足量嗎？第一天該給多少？',
+    x: { gender: 'female', age: 62, height: 155, weight: 42, basis: 'auto', setting: 'outpatient', specialty: 'oncology', ventilator: 'none', glycemic: 'normal', renal: 'normal', route: 'oral', gi: 'normal', fluid: 'none' },
+    rx: { pid: '1828189', count: 2, label: '起始：益力壯高效魚油優蛋白 2 罐/日' },
+    alts: [
+      { pid: '1828189', count: 3, label: '第 2–3 天：同品項 3 罐（電解質穩定才加）' },
+      { pid: '2814162', count: 5, label: '益力壯經典 5 包：熱量達標，但量多、蛋白質密度低' }
+    ],
+    expect: { kcal: [1050, 1260], pro: [42, 63], fluid: 1260, supply: [710, 45.2], water: 370 },
+    steps: [
+      ['先判斷再餵食風險', '3 個月下降 12.5%（≥7.5%）屬顯著風險，單一條件即成立；BMI 17.5 與 6 天幾乎沒吃也都符合中度條件。'],
+      ['起始熱量', 'ASPEN 2020：前 24 小時 10–20 kcal/kg，即 420–840 kcal。2 罐 710 kcal 落在範圍內，所以工具顯示「低於目標」在第一天是正確的。'],
+      ['先查先補', '開始前查 K、Mg、P；高風險者前 3 天每 12 小時追蹤。電解質低時先補再加量。'],
+      ['加量', '每 1–2 天增加目標的 33%（約 380 kcal，相當 1 罐）。'],
+      ['維生素 B1', '開始前給予。ASPEN 2020 為 100 mg，ESPEN 癌症指引為 200–300 mg/日，兩者建議不同，依院內規範。'],
+      ['配方與魚油', '蛋白質可達 >1 至 1.5 g/kg。魚油在 ESPEN 2021 是弱建議、證據等級低，適用於接受化療且有體重下降風險的晚期癌症病人。']
+    ],
+    trap: '工具的目標是最終目標，不是第一天的處方。工具也只計算配方，病人恢復進食後要自行加上飲食攝取。',
+    src: 'ASPEN 2020 Table 3、Table 6；ESPEN 癌症 2021（B2-1、B2-2、B3-4、B5-7）'
+  },
+  {
+    id: 'c2', tag: 'ICU 敗血症', title: '敗血性休克剛穩定，呼吸器＋鼻胃管',
+    stem: '70 歲男性，170 cm、65 kg，肺炎併敗血性休克，插管第 2 天。升壓劑已穩定調降、復甦完成。血糖 210 mg/dL，無糖尿病病史，腎功能正常。',
+    ask: '目標 1575–1890 kcal。今天開幾瓶？該用糖尿病配方或免疫配方嗎？',
+    x: { gender: 'male', age: 70, height: 170, weight: 65, basis: 'auto', setting: 'icu', specialty: 'sepsis', ventilator: 'normal', glycemic: 'stress_hyperglycemia', renal: 'normal', route: 'ng', gi: 'normal', fluid: 'none' },
+    rx: { pid: '1828191', count: 5, label: '穩定後：安素 Ex 5 瓶/日' },
+    alts: [
+      { pid: '1828191', count: 3, label: '急性早期：安素 Ex 3 瓶/日（約 15.7 kcal/kg）' },
+      { pid: '2814163', count: 6, label: '勉益增 6 份：含精胺酸，且廠商未標示可管灌，不選' }
+    ],
+    expect: { kcal: [1575, 1890], pro: [76, 126], fluid: 1890, supply: [1650, 100], water: 858 },
+    steps: [
+      ['何時開始', '復甦完成後 24–48 小時內開始 EN；血流動力學不穩時先暫緩，調降升壓劑時可謹慎開始（ASPEN 2016 B5、N1）。'],
+      ['急性期不必足量', 'ASPEN 2022 為 12–25 kcal/kg（此例 756–1575 kcal）；ESPEN 2023 為不超過估計需求的 70%（約 1213 kcal）。3 瓶 990 kcal 兩者都符合。'],
+      ['配方', '起始用標準聚合配方，內科 ICU 不常規用專科配方（E1）與免疫配方（E2）。工具的應激高血糖建議會列出糖尿病配方，但同時說明配方為輔。'],
+      ['血糖', '應激性高血糖以胰島素控制，目標 140 或 150–180 mg/dL（H5）。'],
+      ['灌食照護', '床頭抬高 30–45°；不把胃殘餘量當常規監測，若仍測量，&lt;500 mL 且無其他不耐受徵象時不要停灌（D2、D4）。']
+    ],
+    trap: '達成率 100% 不是第 2 天的目標；3 瓶時工具會顯示低於目標，這是刻意的漸進。第 1 週後或情況穩定再往 5 瓶。',
+    src: 'ASPEN/SCCM 2016 B5、D2、D4、E1、E2、H5、N1；ASPEN 2022；ESPEN 2023 Rec. 23'
+  },
+  {
+    id: 'c3', tag: 'ICU 肥胖＋CRRT', title: 'BMI 38，要低熱量又要高蛋白',
+    stem: '58 歲女性，158 cm、95 kg，內科 ICU，呼吸器使用中，急性腎損傷接受 CRRT。無法做間接熱量測定。',
+    ask: '目標 1045–1330 kcal、蛋白質 106–132 g。院內哪個組合同時達標？',
+    x: { gender: 'female', age: 58, height: 158, weight: 95, basis: 'auto', setting: 'icu', specialty: 'medical', ventilator: 'normal', glycemic: 'normal', renal: 'crrt', route: 'ng', gi: 'normal', fluid: 'none' },
+    rx: { pid: '1828058', count: 3.5, proMod: 'whey', proCount: 10, label: '倍速 3.5 瓶＋乳清蛋白 10 匙' },
+    alts: [
+      { pid: '1828191', count: 4, label: '安素 Ex 4 瓶：熱量達標，蛋白質只有 80 g' },
+      { pid: '1828191', count: 3, proMod: 'whey', proCount: 10, label: '安素 Ex 3 瓶＋乳清 10 匙：差一點' },
+      { pid: '2814013', count: 3, label: '普寧勝 3 瓶：透析配方蛋白質密度不足' }
+    ],
+    expect: { kcal: [1045, 1330], pro: [106, 132], fluid: 1900, supply: [1250, 111], water: 546 },
+    steps: [
+      ['熱量用實際體重', 'BMI 30–50：11–14 kcal/kg 實際體重＝1045–1330 kcal。若用調整體重 25–30 kcal/kg 會得到約 1584–1900 kcal，超過上限。'],
+      ['蛋白質用 IBW', 'BMI 30–40 為 2.0 g/kg IBW，CRRT 上限可到 2.5 g/kg，所以 106–132 g。'],
+      ['換算成密度', '目標約每 100 kcal 需 9–10 g 蛋白質。安素 Ex 6.1 g、倍速 6.7 g，都不夠，必須加低熱量蛋白質模組。'],
+      ['模組選擇', '乳清每匙 4.1 g 僅 20 kcal；元氣強每包 8.4 g 但有 104 kcal，熱量空間很快用完。'],
+      ['指引並不一致', 'ESPEN 2023 在無 IC 時用調整體重，蛋白質 1.3 g/kg 調整體重（此例約 82 g）；工具採 ASPEN 2016。']
+    ],
+    trap: '不要因為 CRRT 就選透析配方：其低電解質設計不一定需要，CRRT 反而流失 K、P、Mg，應依抽血調整。',
+    src: 'ASPEN/SCCM 2016 肥胖章節、J2；ESPEN 2023 Rec. 52'
+  },
+  {
+    id: 'c4', tag: 'CKD＋糖尿病', title: 'CKD 4 期＋糖尿病，居家鼻胃管',
+    stem: '72 歲男性，168 cm、58 kg，中風後長期鼻胃管，居家照護。CKD G4 未透析、糖尿病，目前無急性疾病。',
+    ask: '腎臟配方、糖尿病配方、透析配方，要選哪個？腎補納與 LPF 差在哪？',
+    x: { gender: 'male', age: 72, height: 168, weight: 58, basis: 'auto', setting: 'outpatient', specialty: 'medical', ventilator: 'none', glycemic: 'diabetes', renal: 'ckd35', route: 'ng', gi: 'normal', fluid: 'none' },
+    rx: { pid: '2814012', count: 4, label: '腎補納 4 罐/日' },
+    alts: [
+      { pid: '三多 補体康LPF腎臟病配方', count: 4, label: 'LPF 4 罐：34 g，略低於下限' },
+      { pid: '2814013', count: 4, label: '普寧勝 4 罐：透析配方，蛋白質過高，工具會警示' },
+      { pid: '1828213', count: 7, label: '補體素糖尿病 7 罐：蛋白質過高' }
+    ],
+    expect: { kcal: [1450, 1740], pro: [35, 46], fluid: 1740, supply: [1700, 42.4], water: 664 },
+    steps: [
+      ['先定蛋白質', '穩定 CKD 3–5：工具用 0.6–0.8 g/kg，即 35–46 g。上限 46 g 正好等於 KDIGO 2024 的 0.8 g/kg。'],
+      ['再選配方', '合併腎病時以腎臟配方為優先，血糖用胰島素或藥物調整。腎補納 4 罐同時達到熱量與蛋白質目標。'],
+      ['水分', '配方含水約 664 mL，目標 1740 mL，自由水約 1076 mL（含沖管與給藥水）；若有水腫或限水，要改用醫囑水量。'],
+      ['狀況改變時', '因敗血症住院後屬代謝不穩定，不應再處方低蛋白（KDIGO PP 3.3.1.3）；工具把目標改為 1.2–1.5 g/kg（70–87 g）。此時建議欄的糖尿病文字仍寫腎臟配方優先，選品項時要以新的蛋白質目標為準。'],
+      ['衰弱長者', '若有衰弱或肌少症，可考慮較高的蛋白質與熱量目標（KDIGO PP 3.3.1.5），0.6–0.8 不是不能調整的數字。']
+    ],
+    trap: '「糖尿病」不等於「選糖尿病配方」。這裡要算足熱量需 7 罐糖尿病配方，蛋白質 84 g，約為上限 46 g 的 1.8 倍。',
+    src: 'KDIGO 2024 Rec. 3.3.1.1、PP 3.3.1.1/3/5；KDOQI 2020（未重讀全文）'
+  },
+  {
+    id: 'c5', tag: '血液透析', title: 'HD 病人鼻胃管，水分怎麼算',
+    stem: '66 歲女性，152 cm、48 kg，規律血液透析，糖尿病，因中風住一般病房改鼻胃管。每日尿量約 200 mL，血鉀偏高。',
+    ask: '工具的水分顯示「個別計算」。配方與沖管水加起來，還剩多少空間？',
+    x: { gender: 'female', age: 66, height: 152, weight: 48, basis: 'auto', setting: 'ward', specialty: 'medical', ventilator: 'none', glycemic: 'diabetes', renal: 'hd', route: 'ng', gi: 'normal', fluid: 'none' },
+    rx: { pid: '2814013', count: 3, label: '普寧勝 3 罐/日' },
+    alts: [
+      { pid: '桂格 完膳洗腎', count: 3, label: '完膳洗腎 3 罐：蛋白質高於目標' },
+      { pid: '2814012', count: 3, label: '腎補納 3 罐：未透析配方，蛋白質不足，工具會警示' }
+    ],
+    expect: { kcal: [1200, 1440], pro: [48, 58], fluid: null, supply: [1275, 57.3], water: 498 },
+    steps: [
+      ['蛋白質', 'HD 穩定期 1.0–1.2 g/kg，48 kg 體重低於 IBW，用實際體重，得 48–58 g。'],
+      ['選配方', '普寧勝 3 罐 57.3 g，在範圍內。完膳洗腎熱量密度較高，3 罐 64.2 g 超過上限；需要較多熱量時可再評估。'],
+      ['水分預算', '前日尿量 200 mL + 500–1000 mL = 700–1200 mL。配方含水約 498 mL。'],
+      ['沖管水要算', '3 次灌食前後各 30 mL = 180 mL，合計約 678 mL，給藥水與自由水還有約 22–522 mL 空間。工具此時不會顯示自由水，要自己算。'],
+      ['監測', '以透析間體重增加量與血鉀、血磷調整。']
+    ],
+    trap: '腎補納與普寧勝都叫「腎臟配方」，但一個是未透析低蛋白，一個是透析高蛋白，選錯蛋白質差將近一倍。',
+    src: 'KDOQI 2020（未重讀全文）；工具水分規則'
+  },
+  {
+    id: 'c6', tag: '術後空腸灌食', title: '胃切除術後 J-tube，開始腹瀉',
+    stem: '55 歲男性，175 cm、62 kg，胃癌全胃切除術後第 5 天，一般病房，空腸造瘻灌食。腹瀉每天 4 次，正在使用抗生素與含山梨醇糖漿。腸缺血疑慮低。',
+    ask: '要停灌嗎？基速得可以當主要營養品嗎？',
+    x: { gender: 'male', age: 55, height: 175, weight: 62, basis: 'auto', setting: 'ward', specialty: 'surgical', ventilator: 'none', glycemic: 'normal', renal: 'normal', route: 'jtube', gi: 'diarrhea', fluid: 'none' },
+    rx: { pid: '2814141', count: 6, label: '新普派 6 份/日，幫浦連續滴注' },
+    alts: [
+      { pid: '雀巢 佳易得', count: 6, label: '佳易得 6 份：熱量略低於下限' },
+      { pid: '1828113', count: 6, label: '基速得 6 包：非完整營養，工具會警示' }
+    ],
+    expect: { kcal: [1550, 1860], pro: [74, 93], fluid: 1860, supply: [1560, 78], water: 1310 },
+    steps: [
+      ['不要反射性停灌', '腹瀉時繼續灌食，同時找原因（ASPEN 2016 D6，原文針對 ICU 病人）。此例先看山梨醇糖漿與抗生素，排除 C. difficile，並檢查速度與滲透壓。'],
+      ['途徑', '幽門後用幫浦連續滴注，不可 bolus。粉劑要完全溶解並充分沖管。'],
+      ['配方', '多數人可耐受標準配方。持續腹瀉、疑吸收不良或對纖維無反應時可考慮胜肽型（E4b）；此例選新普派 6 份。'],
+      ['水分', '配方含水約 1310 mL，目標 1860 mL，還需自由水約 550 mL；腹瀉流失要另外加。'],
+      ['傷口胺基酸', '基速得只能當補充：每包 82 kcal，蛋白質為游離胺基酸。']
+    ],
+    trap: '腸缺血高風險或嚴重蠕動障礙時，應避免可溶與不可溶纖維（E4b），這時「加纖維治腹瀉」是錯的。',
+    src: 'ASPEN/SCCM 2016 D6、E4b'
+  }
+];
+
+// 依病例處方算出目標、供應量與判定
+function caseCalc(x, rx, E) {
+  const t = E.targets(x);
+  const p = E.findProduct(rx.pid);
+  const s = E.supply({ productId: rx.pid, canCal: p.kcal, canPro: p.pro, canCount: rx.count, proMod: rx.proMod || '', proCount: rx.proCount || 0, calMod: rx.calMod || '', calCount: rx.calCount || 0 });
+  return { t, p, s, jc: E.judge(s.kcal, t.kcal.lo, t.kcal.hi), jp: E.judge(s.pro, t.pro.lo, t.pro.hi), recs: E.recommend(x, t, rx.pid) };
+}
+/*CASES-END*/
+
+/*QUIZ-START*/
+// 選項順序固定；a 為正確選項索引（A–D 各 5 題）
+const QUIZ = [
+  { l: 'basic', q: '女性，身高 160 cm。本工具的理想體重 (IBW) 是多少？', o: ['48 kg', '54 kg', '57 kg', '60 kg'], a: 1, x: '女性 (身高 − 70) × 0.6 = 54 kg；男性為 (身高 − 80) × 0.7。', src: '工具公式' },
+  { l: 'basic', q: '男性，165 cm、90 kg，一般病房。工具自動選用的計算體重是？', o: ['90 kg（實際體重）', '59.5 kg（IBW）', '74.8 kg', '67.1 kg（調整體重）'], a: 3, x: '90 kg 超過 120% IBW，用調整體重：59.5 + 0.25 × 30.5 = 67.1 kg。', src: '工具公式' },
+  { l: 'basic', q: '男性，165 cm、50 kg，一般內科。每日熱量目標的下限是？', o: ['1250 kcal', '1488 kcal', '1125 kcal', '1500 kcal'], a: 0, x: '實際體重低於 IBW，用實際體重：50 × 25 = 1250 kcal。1488 kcal 是誤用 IBW。', src: '工具公式' },
+  { l: 'basic', q: '大面積燒燙傷的蛋白質目標，工具採用？', o: ['1.0–1.2 g/kg', '1.2–1.5 g/kg', '1.5–2.0 g/kg', '2.0–2.5 g/kg'], a: 2, x: 'ASPEN 2016 為 1.5–2 g/kg。熱量變異大，建議以間接熱量測定校正。', src: 'ASPEN/SCCM 2016' },
+  { l: 'basic', q: 'CKD 3–5 未透析、代謝穩定，工具的蛋白質範圍是？', o: ['0.3–0.4 g/kg', '0.6–0.8 g/kg', '1.0–1.2 g/kg', '1.2–1.5 g/kg'], a: 1, x: 'KDIGO 2024 建議 0.8 g/kg；KDOQI 2020 非糖尿病 0.55–0.6、糖尿病 0.6–0.8 g/kg。', src: 'KDIGO 2024 Rec. 3.3.1.1；KDOQI 2020' },
+  { l: 'basic', q: '規律血液透析、穩定、需要管灌，優先考慮哪個品項？', o: ['亞培 普寧勝', '亞培 腎補納', '亞培 基速得', '三多 粉飴'], a: 0, x: '普寧勝是透析用高蛋白配方。腎補納是未透析低蛋白配方；基速得與粉飴都不是完整營養。', src: '工具推薦規則' },
+  { l: 'basic', q: '為什麼基速得不能當主要營養來源？', o: ['含糖量太高', '不能用於鼻胃管', '蛋白質含量太低', '只有 82 kcal，蛋白質為精胺酸與麩醯胺酸，非完整配方'], a: 3, x: '每包 82 kcal、14 g 游離胺基酸，只能當傷口癒合的補充。', src: '工具品項資料' },
+  { l: 'basic', q: '熱量目標 1500–1800 kcal，配方供應 1320 kcal。工具顯示的達成率是？', o: ['73%', '88%', '80%', '100%'], a: 2, x: '達成率以目標中位數 1650 計算：1320 ÷ 1650 = 80%。88% 是誤用下限。', src: '工具公式' },
+  { l: 'basic', q: '空腸造瘻 (J-tube) 灌食的給法？', o: ['幫浦連續滴注，不可 bolus', '每 4 小時 bolus', '只能給胜肽配方', '重力滴注即可，不必沖管'], a: 0, x: '幽門後灌食用幫浦連續滴注。多數人可耐受標準配方，不耐受時才改胜肽型。', src: '工具推薦規則' },
+  { l: 'basic', q: '男性，165 cm、60 kg，不限水。工具建議的每日水量？', o: ['1800 mL', '1785 mL', '1500 mL', '2100 mL'], a: 1, x: '30 mL/kg × 計算體重。此例體重在 IBW 100–120%，用 IBW 59.5 kg，得 1785 mL。', src: '工具公式' },
+
+  { l: 'adv', q: '女性，158 cm、95 kg，ICU（BMI 38）。無間接熱量測定時，工具的熱量目標是？', o: ['1584–1900 kcal', '1320–1584 kcal', '1045–1330 kcal', '581–739 kcal'], a: 2, x: 'BMI 30–50：11–14 kcal/kg「實際體重」。', src: 'ASPEN/SCCM 2016' },
+  { l: 'adv', q: '同上病人又接受 CRRT，工具的蛋白質目標是？', o: ['190–238 g', '63–76 g', '76–127 g', '106–132 g'], a: 3, x: '肥胖 ICU 以 IBW 52.8 kg 計算：2.0 g/kg，CRRT 上限到 2.5 g/kg。190–238 g 是誤用實際體重。', src: 'ASPEN/SCCM 2016 J2' },
+  { l: 'adv', q: '同一位 95 kg 病人，若依 ESPEN 2023（無 IC、無氮平衡資料）計算蛋白質，約為？', o: ['82 g', '124 g', '69 g', '190 g'], a: 0, x: 'ESPEN 用 1.3 g/kg 調整體重：63.35 × 1.3 ≈ 82 g，和 ASPEN 的 106–132 g 不同。採用哪一個要明確記錄。', src: 'ESPEN 2023 Rec. 52' },
+  { l: 'adv', q: '42 kg，BMI 17.5，3 個月瘦 12.5%，6 天幾乎沒吃。前 24 小時熱量依 ASPEN 2020 應為？', o: ['1050–1260 kcal', '420–840 kcal', '100–200 kcal', '1260 kcal 以上'], a: 1, x: '10–20 kcal/kg，之後每 1–2 天增加目標的 33%。電解質明顯偏低時，先矯正再開始或加量。', src: 'ASPEN 2020 Table 6' },
+  { l: 'adv', q: '男性 BMI 23、體重略高於 IBW，已 8 天幾乎沒吃。工具沒有跳出再餵食提示，應如何解讀？', o: ['工具未提示，代表沒有風險', '只要 BMI 正常就沒有風險', '只有 TPN 才有再餵食風險', '工具只在實際體重低於 IBW 時提示，這位病人仍屬顯著風險'], a: 3, x: 'ASPEN 2020：幾乎沒有進食 >7 天，單一條件即屬顯著風險。EN、口服同樣要注意。', src: 'ASPEN 2020 Table 3' },
+  { l: 'adv', q: '穩定 CKD G4 的病人因敗血症住一般病房，蛋白質目標如何改？', o: ['維持 0.6–0.8 g/kg 以保護腎臟', '改 0.3–0.4 g/kg＋酮酸', '不限制，工具改為 1.2–1.5 g/kg 並監測 BUN、K、P', '直接開始透析才能提高'], a: 2, x: '代謝不穩定時不應處方低蛋白（KDIGO PP 3.3.1.3），也不應為了延後透析而限制蛋白質（ASPEN J2）。', src: 'KDIGO 2024；ASPEN/SCCM 2016' },
+  { l: 'adv', q: 'COPD 急性惡化、呼吸器、CO₂ 滯留。配方策略應為？', o: ['避免過度餵食，不需為降低 RQ 用高脂低醣配方', '改高脂低醣肺部配方', '把熱量減半以降低 CO₂', '停 EN 直到拔管'], a: 0, x: 'ASPEN I1 不建議用高脂低醣配方；該配方效果只在過度餵食時才看得到。', src: 'ASPEN/SCCM 2016 I1' },
+  { l: 'adv', q: '急性呼吸衰竭合併體液過多，目標約 1500 kcal。下列哪個組合最符合限水？', o: ['益力壯經典 6 包', '安素雙卡 3 罐', '新普派 6 份', '基速得 18 包'], a: 1, x: '安素雙卡 3 罐 1434 kcal，含水約 498 mL；益力壯經典 6 包含水約 1260 mL。蛋白質約 60 g，多半還要加模組。', src: 'ASPEN/SCCM 2016 I2；工具試算' },
+  { l: 'adv', q: 'ICU 病人持續腹瀉，C. difficile 陰性、藥物已排除，但有腸缺血高風險。下一步？', o: ['立刻停 EN', '改混合纖維配方', '加可溶性纖維', '避免纖維，考慮胜肽配方並繼續評估'], a: 3, x: 'ASPEN：不要因腹瀉自動停灌（D6）；腸缺血或嚴重蠕動障礙高風險時避免纖維，可考慮胜肽配方（E4b）。', src: 'ASPEN/SCCM 2016 D6、E4b' },
+  { l: 'adv', q: '敗血性休克剛復甦完成，工具目標 1575–1890 kcal（IBW 63 kg）。第 2 天的處方何者最合理？', o: ['安素 Ex 5 瓶，第一天就足量', '第 7 天再開始 EN', '安素 Ex 3 瓶（990 kcal）並逐步增加', '改含精胺酸配方'], a: 2, x: 'ASPEN 2022 12–25 kcal/kg，ESPEN 2023 不超過估計需求 70%；內科 ICU 不常規用免疫配方。', src: 'ASPEN 2022；ESPEN 2023 Rec. 23；ASPEN/SCCM 2016 E2' }
+];
+/*QUIZ-END*/
+
+/*MAP-START*/
+const MAP_ROOT = '院內營養處方：評估 → 目標 → 配方 → 途徑 → 試算 → 監測';
+const MAP = [
+  { h: '① 評估', n: [
+    { b: '體重與 BMI', l: ['IBW：男 (身高−80)×0.7、女 (身高−70)×0.6', 'BMI：18.5 / 24 / 27（國健署）'] },
+    { b: '計算體重（自動）', l: ['實際 &lt; IBW：實際體重', 'IBW 100–120%：IBW', '&gt;120% IBW：IBW + 0.25 × 超出量'] },
+    { b: '再餵食風險（ASPEN 2020）', l: ['顯著：BMI &lt;16、3 個月瘦 7.5% 或 6 個月 &gt;10%、&gt;7 天幾乎沒吃（任一）', '中度：BMI 16–18.5、1 個月瘦 5%、5–6 天幾乎沒吃（需兩項）', '起始 10–20 kcal/kg，每 1–2 天加目標 33%', '先查 K、Mg、P，開始前給 B1'] }
+  ] },
+  { h: '② 熱量目標', n: [
+    { b: '一般、ICU、敗血症', l: ['25–30 kcal/kg', 'ICU 急性期漸進：12–25 kcal/kg（ASPEN 2022）、≤70%（ESPEN 2023）'] },
+    { b: 'ICU 肥胖（ASPEN 2016）', l: ['BMI 30–50：11–14 kcal/kg 實際體重', 'BMI &gt;50：22–25 kcal/kg IBW'] },
+    { b: '燒燙傷', l: ['35–40 kcal/kg，建議 IC 校正'] }
+  ] },
+  { h: '③ 蛋白質目標', n: [
+    { b: '依病況（取最高）', l: ['一般 1.0–1.2、腫瘤 1.0–1.5 g/kg', '外科／敗血症 1.2–1.5、ICU／呼吸器 1.2–2.0 g/kg', '燒燙傷 1.5–2.0 g/kg'] },
+    { b: '腎臟', l: ['CKD 3–5 穩定 0.6–0.8 g/kg；急性期不限制', 'HD／PD 1.0–1.2 g/kg；CRRT 1.5–2.5 g/kg'] },
+    { b: 'ICU 肥胖', l: ['BMI 30–40：2.0 g/kg IBW', 'BMI ≥40：2.0–2.5 g/kg IBW'] }
+  ] },
+  { h: '④ 水分', n: [
+    { b: '依狀況', l: ['無限制：30 mL/kg × 計算體重', '嚴格限水：1 mL/kcal（熱量下限）', 'HD／PD：前日尿量 + 500–1000 mL'] },
+    { b: '配方含水估計', l: ['約 1 kcal/mL：84%', '約 1.5 kcal/mL：78%', '1.8–2.0 kcal/mL：70%', '沖管與給藥水要計入'] }
+  ] },
+  { h: '⑤ 配方選擇', products: true },
+  { h: '⑥ 途徑與腸胃', n: [
+    { b: '胃內（NG／PEG）', l: ['標準配方，間歇或批次', '灌食前後 30 mL 沖管，床頭 30–45°'] },
+    { b: '幽門後（J-tube／NJ）', l: ['幫浦連續，不可 bolus', '多可用標準配方，不耐受才改胜肽'] },
+    { b: '腹瀉', l: ['不自動停灌，先找原因（藥物、C. difficile、速度）', '持續腹瀉：混合纖維或胜肽', '腸缺血／嚴重蠕動障礙：避免纖維'] }
+  ] },
+  { h: '⑦ 不建議與陷阱', n: [
+    { b: '不常規使用', l: ['內科 ICU、敗血症：免疫配方、額外麩醯胺酸', 'CO₂ 滯留：高脂低醣配方'] },
+    { b: '麩醯胺酸（ESPEN 2023）', l: ['燒傷 &gt;20% TBSA：0.3–0.5 g/kg/日，10–15 天', '創傷：0.2–0.3 g/kg/日，前 5 天'] },
+    { b: '解讀試算結果', l: ['目標是最終目標，不是第一天處方', '只計配方，飲食攝取要另加', '基速得不可作主要營養', '再餵食提示只看體重，其他風險要自行判斷'] }
+  ] },
+  { h: '⑧ 試算與監測', n: [
+    { b: '試算', l: ['主營養品份數 + 蛋白質模組 + 熱量模組', '達成率以目標中位數計算', '蛋白質不足先看 g/100 kcal，再選模組'] },
+    { b: '監測', l: ['血糖：ICU 目標 140 或 150–180 mg/dL', '電解質：K、P、Mg；腎病加 BUN', '透析：透析間體重增加量', '體重與耐受性，依結果回到 ② 調整'] }
+  ] }
+];
+const TEACH_SOURCES = [
+  'McClave SA, et al. ASPEN/SCCM 2016. JPEN 2016;40:159–211.（原文核對：B5、D2、D4、D6、E1、E2、E4、H5、I1、I2、J1、J2、N1、肥胖章節）',
+  'da Silva JSV, et al. ASPEN Consensus Recommendations for Refeeding Syndrome. Nutr Clin Pract 2020;35:178–195.（原文核對：Table 3、Table 6）',
+  'Singer P, et al. ESPEN ICU 2023. Clin Nutr 2023;42:1671–1689.（原文核對：Rec. 23、25、30、31、52、58）',
+  'KDIGO 2024 CKD Guideline. Kidney Int 2024;105(4S):S117–S314.（原文核對：Rec. 3.3.1.1、PP 3.3.1.1、3.3.1.3、3.3.1.5）',
+  'Muscaritoli M, et al. ESPEN practical guideline: cancer. Clin Nutr 2021;40:2898–2913.（原文核對：B2-1、B2-2、B3-4、B5-7）',
+  'Compher C, et al. ASPEN 2022. JPEN 2022;46:12–41.（原文核對：12–25 kcal/kg、1.2–2.0 g/kg）',
+  'Ikizler TA, et al. KDOQI 2020. AJKD 2020;76(3 Suppl 1):S1–S107.（全文無法取得，未重讀；數字沿用頁面既有引用）',
+  '品項數值來自試算引擎內的院內品項資料。'
+];
+/*MAP-END*/
+
     const $ = id => document.getElementById(id);
     const num = id => { const v = parseFloat($(id).value); return Number.isFinite(v) ? v : NaN; };
     const selText = id => $(id).options[$(id).selectedIndex].text;
@@ -929,6 +1260,151 @@ const ONS = (() => {
     });
     $('copy-btn').addEventListener('click', copySummary);
     render();
+
+    // ── 分頁 ──
+    const TABS = ['tool', 'cases', 'quiz', 'map'];
+    function showTab(id, focus) {
+      TABS.forEach(t => {
+        $(t).hidden = t !== id;
+        const b = $('tab-' + t);
+        b.setAttribute('aria-selected', t === id ? 'true' : 'false');
+        b.tabIndex = t === id ? 0 : -1;
+      });
+      $('teach-src').hidden = id === 'tool';
+      if (focus) $('tab-' + id).focus();
+    }
+    function fromHash() {
+      const h = location.hash.slice(1);
+      showTab(TABS.includes(h) ? h : 'tool');
+    }
+    function goTab(id, focus) {
+      if (location.hash !== '#' + id) history.pushState(null, '', '#' + id);
+      showTab(id, focus);
+    }
+    document.querySelector('.tabs').addEventListener('click', e => {
+      const b = e.target.closest('.tab');
+      if (b) goTab(b.dataset.t);
+    });
+    document.querySelector('.tabs').addEventListener('keydown', e => {
+      const d = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+      if (!d) return;
+      e.preventDefault();
+      const i = TABS.findIndex(t => $('tab-' + t).getAttribute('aria-selected') === 'true');
+      goTab(TABS[(i + d + TABS.length) % TABS.length], true);
+    });
+    window.addEventListener('hashchange', fromHash);
+    window.addEventListener('popstate', fromHash);
+
+    // ── 示範病例 ──
+    const fmtRx = rx => rx.label;
+    const statusCell = j => `<td class="${j.status === 'ok' ? 'ok' : 'off'}">${j.text}（${j.pct}%）</td>`;
+    function rxRow(x, rx) {
+      const c = caseCalc(x, rx, ONS);
+      return `<tr><td>${fmtRx(rx)}</td><td>${c.s.kcal} kcal</td>${statusCell(c.jc)}<td>${c.s.pro} g</td>${statusCell(c.jp)}<td>${c.s.water} mL</td></tr>`;
+    }
+    function caseHtml(c) {
+      const k = caseCalc(c.x, c.rx, ONS), t = k.t;
+      const rows = [
+        ['IBW／BMI', `${r1(t.ibw)} kg／${r1(t.bmi)}（${t.bmiClass.text.split(' ')[0]}）`],
+        ['計算體重', `${t.basisLabel} ${r1(t.doseW)} kg`],
+        ['熱量目標', `${t.kcal.lo}–${t.kcal.hi} kcal（${t.kcal.perLo}–${t.kcal.perHi} kcal/kg × ${r1(t.kcal.w)} kg ${t.kcal.wLabel}）`],
+        ['蛋白質目標', `${t.pro.lo}–${t.pro.hi} g（${t.pro.perLo}–${t.pro.perHi} g/kg × ${r1(t.pro.w)} kg ${t.pro.wLabel}）`],
+        ['水分', t.fluid.ml ? `${t.fluid.ml} mL` : t.fluid.text]
+      ];
+      return `<h3 style="font-size:1.05rem;margin-bottom:6px;">${c.title}</h3>
+        <p class="case-stem">${c.stem}</p>
+        <div class="case-ask">🤔 ${c.ask}</div>
+        <details class="reveal"><summary>想過了，展開解析</summary>
+          <div class="sub-h">工具算出的目標</div>
+          <div class="teach-wrap"><table class="teach"><tbody>${rows.map(r => `<tr><th scope="row">${r[0]}</th><td>${r[1]}</td></tr>`).join('')}</tbody></table></div>
+          <div class="sub-h">處方比較</div>
+          <div class="teach-wrap"><table class="teach"><thead><tr><th>處方</th><th>熱量</th><th>判定</th><th>蛋白質</th><th>判定</th><th>含水</th></tr></thead>
+            <tbody>${[c.rx].concat(c.alts).map(rx => rxRow(c.x, rx)).join('')}</tbody></table></div>
+          <div class="sub-h">思考步驟</div>
+          ${c.steps.map(s => `<div class="step"><b>${s[0]}</b>${s[1]}</div>`).join('')}
+          <div class="trap">⚠️ ${c.trap}</div>
+          <p class="src">依據：${c.src}</p>
+        </details>
+        <button class="btn-ghost" type="button" data-load="${c.id}">帶入試算工具</button>`;
+    }
+    function showCase(id) {
+      const c = CASES.find(k => k.id === id);
+      $('case-body').innerHTML = caseHtml(c);
+      $('case-chips').querySelectorAll('.chip').forEach(b => b.setAttribute('aria-pressed', b.dataset.c === id ? 'true' : 'false'));
+    }
+    function loadCase(c) {
+      Object.keys(c.x).forEach(f => { $(f).value = c.x[f]; });
+      $('product-select').value = c.rx.pid;
+      applyProduct();
+      $('can-count').value = c.rx.count;
+      $('mod-pro-type').value = c.rx.proMod || '';
+      $('mod-pro-count').value = c.rx.proCount || 0;
+      $('mod-cal-type').value = c.rx.calMod || '';
+      $('mod-cal-count').value = c.rx.calCount || 0;
+      render();
+      goTab('tool');
+      window.scrollTo(0, 0);
+    }
+    $('case-chips').innerHTML = CASES.map((c, i) => `<button class="chip" type="button" data-c="${c.id}" aria-pressed="false">${i + 1}. ${c.tag}</button>`).join('');
+    $('case-chips').addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) showCase(b.dataset.c); });
+    $('case-body').addEventListener('click', e => {
+      const b = e.target.closest('[data-load]');
+      if (b) loadCase(CASES.find(k => k.id === b.dataset.load));
+    });
+    showCase(CASES[0].id);
+
+    // ── 考題（不儲存作答）──
+    let quizLevel = 'all', answers = {};
+    const LETTERS = 'ABCD';
+    function renderQuiz() {
+      const show = QUIZ.map((q, i) => [q, i]).filter(p => quizLevel === 'all' || p[0].l === quizLevel);
+      $('quiz-body').innerHTML = show.map(([q, i]) => {
+        const picked = answers[i];
+        const done = picked !== undefined;
+        return `<div class="q"><div class="q-h"><span class="q-lv ${q.l === 'adv' ? 'adv' : ''}">${q.l === 'adv' ? '高階' : '基礎'}</span>${i + 1}. ${q.q}</div>` +
+          q.o.map((o, n) => `<button class="q-opt${done && n === q.a ? ' right' : ''}${done && n === picked && n !== q.a ? ' wrong' : ''}" type="button" data-q="${i}" data-n="${n}"${done ? ' disabled' : ''}>${LETTERS[n]}. ${o}</button>`).join('') +
+          (done ? `<div class="q-x"><strong>${picked === q.a ? '✓ 答對' : '✗ 正解 ' + LETTERS[q.a]}</strong>　${q.x}<div class="src">依據：${q.src}</div></div>` : '') + '</div>';
+      }).join('');
+      const keys = show.map(p => p[1]).filter(i => answers[i] !== undefined);
+      const right = keys.filter(i => answers[i] === QUIZ[i].a).length;
+      $('quiz-score').textContent = `已答 ${keys.length}/${show.length}，答對 ${right} 題`;
+      $('quiz-filter').querySelectorAll('.chip').forEach(b => b.setAttribute('aria-pressed', b.dataset.l === quizLevel ? 'true' : 'false'));
+    }
+    $('quiz-filter').innerHTML = [['all', '全部 20 題'], ['basic', '基礎 10 題'], ['adv', '高階 10 題']]
+      .map(f => `<button class="chip" type="button" data-l="${f[0]}" aria-pressed="false">${f[1]}</button>`).join('');
+    $('quiz-filter').addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) { quizLevel = b.dataset.l; renderQuiz(); } });
+    $('quiz-body').addEventListener('click', e => {
+      const b = e.target.closest('.q-opt');
+      if (!b || b.disabled) return;
+      const i = +b.dataset.q;
+      answers[i] = +b.dataset.n;
+      renderQuiz();
+      const next = $('quiz-body').querySelector(`.q-opt[data-q="${i}"]`);
+      if (next) next.closest('.q').querySelector('.q-x').setAttribute('tabindex', '-1');
+    });
+    $('quiz-reset').addEventListener('click', () => { answers = {}; renderQuiz(); });
+    renderQuiz();
+
+    // ── 心智圖 ──
+    function productNodes() {
+      const groups = {};
+      ONS.PRODUCTS.forEach(p => (groups[p.cat] = groups[p.cat] || []).push(p));
+      return Object.keys(groups).map(cat => ({
+        b: ONS.CATS[cat],
+        l: groups[cat].map(p => `${p.name.replace(/^\S+ /, '')}：${p.kcal} kcal、${p.pro} g（${r1(p.pro / p.kcal * 100)} g/100 kcal）`)
+      }));
+    }
+    $('map-body').innerHTML = `<div class="map-root">${MAP_ROOT}</div><div class="map-grid">` + MAP.map(br => {
+      const nodes = br.products ? productNodes() : br.n;
+      return `<details class="map-br" open><summary>${br.h}</summary>` + nodes.map(n =>
+        `<div class="map-node"><b>${n.b}</b><ul>${n.l.map(t => `<li>${t}</li>`).join('')}</ul></div>`).join('') + '</details>';
+    }).join('') + '</div>';
+    const setMap = open => document.querySelectorAll('.map-br').forEach(d => { d.open = open; });
+    $('map-open').addEventListener('click', () => setMap(true));
+    $('map-close').addEventListener('click', () => setMap(false));
+    $('teach-src-list').innerHTML = TEACH_SOURCES.map(s => `<li>${s}</li>`).join('');
+
+    fromHash();
   </script>
 </body>
 </html>
